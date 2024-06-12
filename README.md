@@ -4,12 +4,7 @@ Welcome to **LlamaNotes**, a notes app with a llama theme. Below is a guide to h
 
 ## Watch the Video
 
-<div style="display: flex; justify-content: center;">
-  <video controls style="width: 100%; max-width: 800px; height: auto;" autoplay loop muted>
-    <source src="./src/media/LlamaNotesTour.mov" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
+![LlamaNotes Tour](./src/media/LlamaNotesTour.gif)
 
 ## Project Overview
 
