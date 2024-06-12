@@ -1,38 +1,207 @@
+/* Variables */
+:root {
+  --main-bg-color: #1e3a8a;
+  --header-bg-color: rgb(60, 11, 152);
+  --button-bg-color: #ff6f61;
+  --button-hover-color: #ff4d4d;
+  --button-active-color: #e63946;
+  --box-shadow-color: rgba(246, 246, 246, 0.186);
+  --text-color: #ffffff;
+  --border-radius: 20px;
+  --input-border-radius: 5px;
+  --input-border: 1px solid #ccc;
+}
+
+/* App container */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
+  color: var(--text-color);
+}
+
+/* Header */
+.App-header {
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+  background-color: var(--header-bg-color);
+  box-shadow: 0 4px 8px var(--box-shadow-color);
+}
+
+.App-header img {
+  width: 300px;
+  border-radius: 30%;
+}
+
+.App-header p {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.5em;
+}
+
+/* Main content */
+.App-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+  padding: 1rem;
+}
+
+/* Note card */
+.note-card {
+  background-color: var(--header-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px var(--box-shadow-color);
+  padding: 20px;
+  margin: 10px;
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+  transition: transform 0.5s ease, box-shadow 0.5s ease, scale 0.5s ease;
+}
+
+.note-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  scale: 1.1;
+}
+
+.note-card h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.note-card p {
+  font-size: 1em;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Buttons container */
+.buttons {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+/* Button styles */
+.button,
+.modal-content button {
+  background-color: var(--button-bg-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.button:hover,
+.modal-content button:hover {
+  background-color: var(--button-hover-color);
+  transform: scale(1.1);
+}
+
+.button:active,
+.modal-content button:active {
+  background-color: var(--button-active-color);
+  transform: scale(1);
+}
+
+.button:focus,
+.modal-content button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.5);
+}
+
+/* Image button */
+.image-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.image-button img {
+  width: 75px;
+  padding: 10px;
+  height: auto;
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.image-button img:hover {
+  transform: scale(1.2);
+}
+
+.image-button img:active {
+  transform: scale(1.1);
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: var(--header-bg-color);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  padding: 10px;
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .App-header img {
+    width: 200px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .image-button img {
+    width: 75px;
+    height: auto;
+  }
+
+  .App-header p {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  .note-card {
+    margin: 0.5rem auto;
+    padding: 1rem;
+    max-width: 90%;
   }
 }
