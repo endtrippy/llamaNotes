@@ -97,8 +97,12 @@ app.put("/notes", (req, res) => {
   });
 });
 
-// Set the server to listen on a port
-const port = 8000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// Start the server in development mode
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 8000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
