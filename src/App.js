@@ -10,14 +10,18 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
   const [newNoteTitle, setNewNoteTitle] = useState(""); // Manage new note title
   const [newNoteContent, setNewNoteContent] = useState(""); // Manage new note content
-  console.log(error)
+
+  const URL = process.env.REACT_APP_BASE_URL + "/api/notes";
+
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch("/api/notes");
-        
+        const response = await fetch(URL);
+
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
         }
         const data = await response.json();
         data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -30,7 +34,7 @@ function App() {
     };
 
     fetchNotes();
-  }, []);
+  });
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -105,7 +109,7 @@ function App() {
     };
 
     try {
-      const response = await fetch("/api/notes", {
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
