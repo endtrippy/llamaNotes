@@ -12,7 +12,7 @@ function App() {
   const [newNoteContent, setNewNoteContent] = useState(""); // Manage new note content
 
   const URL = process.env.REACT_APP_BASE_URL + "/api/notes";
-  console.log(URL)
+
   useEffect(() => {
     const fetchNotes = async () => {
       try {
