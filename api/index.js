@@ -19,7 +19,7 @@ AWS.config.update({
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 // Define a route to retrieve a note
-app.get("/notes", (req, res) => {
+app.get("/api/notes", (req, res) => {
   const params = {
     TableName: "notes",
   };
@@ -35,7 +35,7 @@ app.get("/notes", (req, res) => {
   });
 });
 
-app.post("/notes", (req, res) => {
+app.post("/api/notes", (req, res) => {
   const { title, content } = req.body;
 
   if (!title || !content) {
@@ -67,7 +67,7 @@ app.post("/notes", (req, res) => {
 });
 
 // PUT request to update the content field of a note
-app.put("/notes", (req, res) => {
+app.put("/api/notes", (req, res) => {
   const { noteId, content } = req.body;
 
   const params = {
@@ -99,7 +99,7 @@ app.put("/notes", (req, res) => {
 
 // Start the server in development mode
 if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 8000;
+  const PORT = process.env.PORT || 8000; // or any other port number
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });

@@ -10,13 +10,14 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
   const [newNoteTitle, setNewNoteTitle] = useState(""); // Manage new note title
   const [newNoteContent, setNewNoteContent] = useState(""); // Manage new note content
-
+  console.log(error)
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch("http://localhost:8000/notes");
+        const response = await fetch("/api/notes");
+        
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
         const data = await response.json();
         data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -104,7 +105,7 @@ function App() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/notes", {
+      const response = await fetch("/api/notes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
