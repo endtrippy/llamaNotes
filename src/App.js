@@ -1,40 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import logo from "./media/coolLlama.webp";
-import llamaButton from "./media/llamaButton.png"; // Import the llama logo
+import llamaButton from "./media/llamaButton.png";
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
-  const [newNoteTitle, setNewNoteTitle] = useState(""); // Manage new note title
-  const [newNoteContent, setNewNoteContent] = useState(""); // Manage new note content
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newNoteTitle, setNewNoteTitle] = useState("");
+  const [newNoteContent, setNewNoteContent] = useState("");
 
   const URL = process.env.REACT_APP_BASE_URL + "/api/notes";
 
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const response = await fetch(URL);
-
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
-        }
-        const data = await response.json();
-        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setNotes(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
+  const fetchNotes = useCallback(async () => {
+    try {
+      const response = await fetch(URL);
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
       }
-    };
+      const data = await response.json();
+      data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setNotes(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [URL]);
 
+  useEffect(() => {
     fetchNotes();
-  });
+  }, [fetchNotes]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {

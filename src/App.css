@@ -179,6 +179,7 @@
   width: calc(100% - 20px);
   margin: 10px 0;
   padding: 10px;
+  font-size: 16px;
   border: var(--input-border);
   border-radius: var(--input-border-radius);
 }

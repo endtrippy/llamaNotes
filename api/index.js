@@ -98,8 +98,8 @@ app.put("/api/notes", (req, res) => {
 });
 
 // Start the server in development mode
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3001; // or any other port number
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
