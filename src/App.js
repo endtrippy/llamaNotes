@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import logo from "./media/coolLlama.webp";
 import llamaButton from "./media/llamaButton.png";
+import octocat from "./media/octocat.svg";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -143,6 +144,14 @@ function App() {
             😊
           </span>
         </p>
+        <button
+          className="image-button"
+          onClick={() =>
+            (window.location.href = "https://github.com/endtrippy/llamaNotes")
+          }
+        >
+          <img src={octocat} alt="Octocat" />
+        </button>
       </header>
       <main className="App-main">
         <div className="buttons">
