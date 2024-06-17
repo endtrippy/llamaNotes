@@ -5,6 +5,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const uuid = require("uuid");
 const app = express();
+const Replicate = require("replicate");
+
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -35,9 +40,28 @@ app.get("/api/notes", (req, res) => {
   });
 });
 
+app.get("/api/llamaNote", async (req, res) => {
+  const input = {
+    top_p: 0.95,
+    prompt: "Please provide a random note.",
+    temperature: 1,
+    system_prompt:
+      "You are to responed with few sentences (200 tokens) and be concise. Your response must be a thought or idea from historical, mythical, or modern figure. Only write from the 1st person perspective of the figure. Always put your note is quotes and sign your name at the end unquoted.",
+    length_penalty: 1,
+    max_new_tokens: 200,
+    stop_sequences: "<|end_of_text|>,<|eot_id|>",
+    prompt_template:
+      "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+    presence_penalty: 0,
+  };
+  const output = await replicate.run("meta/meta-llama-3-8b-instruct", {
+    input,
+  });
+  res.json({ content: output.join("") });
+});
+
 app.post("/api/notes", (req, res) => {
   const { title, content } = req.body;
-
   if (!title || !content) {
     return res.status(400).send({
       error: "Title and content are required",

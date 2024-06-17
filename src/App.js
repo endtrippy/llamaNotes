@@ -130,8 +130,20 @@ function App() {
     }
   };
 
-  const handleLlamaNoteClick = () => {
-    setIsModalOpen(true);
+  const handleLlamaNoteClick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BASE_URL + "/api/llamaNote"
+      );
+      const data = await response.json();
+      console.log(data);
+      setNewNoteContent(data.content);
+      setIsModalOpen(true);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
