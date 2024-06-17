@@ -38,6 +38,8 @@ function App() {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setIsModalOpen(false);
+        setNewNoteTitle("");
+        setNewNoteContent("");
       }
     };
 
@@ -100,7 +102,6 @@ function App() {
       alert("Both title and content are required.");
       return;
     }
-
     const newNote = {
       title: newNoteTitle,
       content: newNoteContent,
@@ -137,7 +138,7 @@ function App() {
         process.env.REACT_APP_BASE_URL + "/api/llamaNote"
       );
       const data = await response.json();
-      console.log(data);
+      setNewNoteTitle(data.title);
       setNewNoteContent(data.content);
       setIsModalOpen(true);
       setLoading(false);
@@ -146,12 +147,19 @@ function App() {
     }
   };
 
+  const handleCancelCLick = () => {
+    setIsModalOpen(false);
+    setNewNoteTitle("");
+    setNewNoteContent("");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} alt="LllamaNotes Logo" />
         <p>
-          Le classic notes app with a llama.{" "}
+          The classic notes app with a llama. You can create a manual note or
+          hit the llama button to have Llama-3 generate you a note. &nbsp;
           <span role="img" aria-label="smiling face with smiling eyes">
             😊
           </span>
@@ -164,16 +172,20 @@ function App() {
         >
           <img src={octocat} alt="Octocat" />
         </button>
-      </header>
-      <main className="App-main">
         <div className="buttons">
           <button className="button" onClick={handleNewNote}>
             + Note
           </button>
-          <button className="image-button" onClick={handleLlamaNoteClick}>
+          <button
+            label="lamma"
+            className="image-button"
+            onClick={handleLlamaNoteClick}
+          >
             <img src={llamaButton} alt="Llama 3 Note" />
           </button>
         </div>
+      </header>
+      <main className="App-main">
         {notes.map((note) => (
           <div key={note.noteId} className="note-card">
             <h2>{note.title}</h2>
@@ -203,7 +215,7 @@ function App() {
               />
               <div className="buttons">
                 <button type="submit">Save</button>
-                <button type="button" onClick={() => setIsModalOpen(false)}>
+                <button type="button" onClick={handleCancelCLick}>
                   Cancel
                 </button>
               </div>

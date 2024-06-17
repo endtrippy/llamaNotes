@@ -16,9 +16,9 @@ app.use(bodyParser.json());
 
 // Configure AWS
 AWS.config.update({
-  region: process.env.AWS_REGION, // Replace with your AWS region
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Replace with your access key id
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // Replace with your secret access key
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -39,25 +39,42 @@ app.get("/api/notes", (req, res) => {
     }
   });
 });
-
+// Define a rout for LLama 3 to generate a note
 app.get("/api/llamaNote", async (req, res) => {
-  const input = {
-    top_p: 0.95,
-    prompt: "Please provide a random note.",
-    temperature: 1,
-    system_prompt:
-      "You are to responed with few sentences (200 tokens) and be concise. Your response must be a thought or idea from historical, mythical, or modern figure. Only write from the 1st person perspective of the figure. Always put your note is quotes and sign your name at the end unquoted.",
-    length_penalty: 1,
-    max_new_tokens: 200,
-    stop_sequences: "<|end_of_text|>,<|eot_id|>",
-    prompt_template:
-      "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
-    presence_penalty: 0,
-  };
-  const output = await replicate.run("meta/meta-llama-3-8b-instruct", {
-    input,
+  const content = await replicate.run("meta/meta-llama-3-8b-instruct", {
+    input: {
+      top_p: 0.95,
+      prompt: "Please provide a random note.",
+      temperature: 1,
+      system_prompt:
+        "Be concise. Your response must be a thought, idea, or journal entry from a historical, mythical, or modern figure. Only write from the 1st person perspective of the figure. Always put your note is quotes and sign your name at the end unquoted.",
+      length_penalty: 1,
+      max_new_tokens: 200,
+      stop_sequences: "<|end_of_text|>,<|eot_id|>",
+      prompt_template:
+        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+      presence_penalty: 0,
+    },
   });
-  res.json({ content: output.join("") });
+  const title = await replicate.run("meta/meta-llama-3-8b-instruct", {
+    input: {
+      top_p: 0.95,
+      prompt: `Please provide a title for ${content}`,
+      temperature: 1,
+      system_prompt:
+        "You are to provide a title for the content provided, it must be concise and relative to the content, no quotoations.",
+      length_penalty: 1,
+      max_new_tokens: 10,
+      stop_sequences: "<|end_of_text|>,<|eot_id|>",
+      prompt_template:
+        "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+      presence_penalty: 0,
+    },
+  });
+  res.json({
+    content: content.join(""),
+    title: title.join("").replaceAll('"', ""),
+  });
 });
 
 app.post("/api/notes", (req, res) => {
