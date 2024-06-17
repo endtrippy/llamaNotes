@@ -17,6 +17,7 @@ LlamaNotes is a web-based notes application designed to offer users a fun take o
 - Attractive and responsive UI built for mobile first use.
 - Llama 3 themed logo and design.
 - Secure data handling with AWS DynamoDB.
+- Llama Button, has Llama 3 generate a prefilled note.
 
 ## Technologies Used
 
@@ -32,7 +33,7 @@ LlamaNotes is a web-based notes application designed to offer users a fun take o
 - **Dotenv**: For managing environment variables.
 - **HTML**: For structuring the web pages.
 - **CSS**: For styling the application.
-- **Service Worker**: For enabling offline capabilities and caching resources.
+- **Replicate**: For enabling LLM integrations in our API.
 - **Concurrently**: For running multiple commands (e.g., starting backend and frontend servers) simultaneously in a single terminal.
 
 ## Setup and Installation
@@ -60,17 +61,22 @@ To set up and run this project locally, follow these steps:
    AWS_ACCESS_KEY_ID=your-access-key-id
    AWS_SECRET_ACCESS_KEY=your-secret-access-key
    REACT_APP_BASE_URL=http://localhost:3001
+   REPLICATE_API_TOKEN=your-api-token
    ```
 4. **Start the frontend/backend development servers simultaneously**:
    This command should start both servers in one terminal.
+
    ```sh
    npm run dev
    ```
+
    To start separately you may use:
+
    - `npm start`: to start the frontend
    - `npm run back`: to start the backend
-   
+
    Please note:
+
    - For convenience ports 3000 and 3001 are killed before dev enviroment starts:
      - This only works for unix based systems and will fail on windows
        - `"dev": "concurrently \"lsof -ti :3000 -ti :3001 | xargs kill -9\" \"nodemon api/index.js\" \"react-scripts start\""`
@@ -87,6 +93,7 @@ Here is an overview of the project structure:
 - `/api/index.js`: Express server file for handling backend operations.
 - `.env`: Environment variables file (not included in the repository for security reasons).
 - `package.json`: Lists the project dependencies and scripts.
+- `nodemon.json`: Configuration file for what nodemon should watch/ignore.
 - `vercel.json`: Configuration file for Vercel deployment.
 
 ## How to Contribute
@@ -133,7 +140,6 @@ If you want to contribute to LlamaNotes, follow these steps:
 
 ## Upcoming Features
 
-- `Llama button`: will prefill the note modal with random thoughts from Meta's Llama 3 for some GenAI integrations.
 - `Users` and `User Profiles`: login with profiles.
 - `Update` and `Delete` notes: do more with your notes.
 
