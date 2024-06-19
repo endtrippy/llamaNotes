@@ -36,7 +36,7 @@ exports.generateLlamaNote = async (req, res) => {
   try {
     const content = await replicate.run("meta/meta-llama-3-8b-instruct", {
       input: {
-        top_p: 0.8,
+        top_p: 0.9,
         prompt: "Please provide a random note.",
         temperature: 0.9,
         system_prompt:
@@ -51,7 +51,7 @@ exports.generateLlamaNote = async (req, res) => {
     });
     const title = await replicate.run("meta/meta-llama-3-8b-instruct", {
       input: {
-        top_p: 0.8,
+        top_p: 0.9,
         prompt: `Please provide a title for ${content}`,
         temperature: 0.9,
         system_prompt:

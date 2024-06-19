@@ -4,8 +4,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const noteRoutes = require("./routes/noteRoutes");
-
+const AWS = require("aws-sdk");
 const app = express();
+
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 app.use(cors());
 app.use(helmet());

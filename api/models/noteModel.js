@@ -1,4 +1,5 @@
 const dynamoose = require("dynamoose");
+const uuid = require("uuid");
 
 const noteSchema = new dynamoose.Schema({
   noteId: {

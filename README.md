@@ -22,9 +22,11 @@ LlamaNotes is a web-based notes application designed to offer users a fun take o
 ## Technologies Used
 
 - **React**: For building the user interface.
+- **Replicate**: For enabling LLM integrations in our API.
 - **Vercel**: For deployment, hosting, and CI/CD integration.
 - **Express**: For handling backend server operations.
 - **AWS SDK**: For interacting with AWS DynamoDB.
+- **Dynamoose**: For schema modeling and interacting with DynamoDB.
 - **UUID**: For generating unique note identifiers.
 - **Body-Parser**: For parsing incoming request bodies in middleware.
 - **Cors**: For enabling Cross-Origin Resource Sharing.
@@ -33,7 +35,6 @@ LlamaNotes is a web-based notes application designed to offer users a fun take o
 - **Dotenv**: For managing environment variables.
 - **HTML**: For structuring the web pages.
 - **CSS**: For styling the application.
-- **Replicate**: For enabling LLM integrations in our API.
 - **Concurrently**: For running multiple commands (e.g., starting backend and frontend servers) simultaneously in a single terminal.
 
 ## Setup and Installation
